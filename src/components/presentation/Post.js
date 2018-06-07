@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
 import config from '../../config';
-
+/** Creamos cada post que tengamos guardado */
 class Post extends React.Component {
   constructor(props) {
     super(props)
@@ -22,10 +22,11 @@ class Post extends React.Component {
   render() {
     /** 410 / 365 = 1.10  => Math.floor - redondeamos el resultado */
     const imageHeight = Math.floor(this.state.screenWidth * 1.10)
-    const imageUri = "https://lh3.googleusercontent.com/7aGIQrv8qiCgIwVdZNAxrYVftyPe6ZHFmcKBqxObUYOklmrqcx4VxeojuJCoN7lN-qycgONBTtn2eFgQOtZuCtmy6g" + "=s" + imageHeight + "-c"
+    const selectedImg = this.props.item % 2 == 0 ?"https://lh3.googleusercontent.com/1mrobnvOwuyRtTSSWaHVHMkp3cAjA2SVN-s6O9NdbcZfr3Hd06imTTlcp-fVKngZf-J5nvMrMwnIvuewM-CmpmbC" :
+    "https://lh3.googleusercontent.com/7aGIQrv8qiCgIwVdZNAxrYVftyPe6ZHFmcKBqxObUYOklmrqcx4VxeojuJCoN7lN-qycgONBTtn2eFgQOtZuCtmy6g"
+    const imageUri = selectedImg + "=s" + imageHeight + "-c"
     const likeColor = this.state.liked ? "rgb(252, 61, 57)" : null
     return (
-      <View style={Styles.container}>
         <View style={{flex: 1, width: 100 + "%"}}>
             <View style={Styles.userBar}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -77,7 +78,6 @@ class Post extends React.Component {
                 <Text style={{ fontWeight: "bold" }}>125 me gusta</Text>
             </View>
         </View>
-      </View>
     )
   };
 }
