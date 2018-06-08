@@ -5,9 +5,7 @@ import InstaClone from "./src/InstaClone";
 export default class App extends React.Component {
   render() {
     return (
-      <View>
-        <InstaClone />
-      </View>
+      <InstaClone />
     );
   }
 }

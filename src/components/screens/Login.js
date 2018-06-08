@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 class Login extends Component {
   login(){
-    this.props.navigation.navigate("main")
+    this.props.navigation.navigate("Home")
   }
   render() {
     return (
