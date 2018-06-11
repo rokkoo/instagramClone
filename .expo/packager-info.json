@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 10436,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "packagerPid": 27515,
+  "expoServerNgrokUrl": "https://5r-dk9.rokko.clonins.exp.direct",
+  "packagerNgrokUrl": "https://packager.5r-dk9.rokko.clonins.exp.direct",
+  "ngrokPid": 27526
 }
