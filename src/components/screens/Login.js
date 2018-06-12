@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Animated, Dimensions, StyleSheet} from 'react-native';
-import { Button } from "react-native-elements";
+import { View, TextInput, Animated, Dimensions, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
+import { Container,Content, Item ,Button ,Text ,Footer } from 'native-base';
 import config from '../../config';
 
 const Movile_with = Dimensions.get("window").width
 const Movile_height = Dimensions.get("window").height
+const ACCESS_TOKEN = 'access_token'
+
+
 class Login extends Component {
 
+componentWillMount() {
+  this.getToken()
+}
 constructor(props){
   super(props)
   this.state = {
@@ -16,6 +22,26 @@ constructor(props){
     }
   }
 }
+
+
+async storeToken(accessToken) {
+  try {
+    await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
+  } catch (error) {
+    console.log('Algo ha ido mal con el token de acceso.')
+  }
+}
+
+async getToken() {
+  try {
+    let token = await AsyncStorage.getItem(ACCESS_TOKEN)
+    if (!token) console.log('No hay token')
+    else this.props.navigation.navigate('Home')
+  } catch (error) {
+    console.log('Algo ha ido mal con el token de acceso.')
+  }
+}
+
 updateTex(text, field){
   let newCredential = Object.assign(this.state.credentials)
   newCredential[field] = text.toLowerCase()
@@ -37,7 +63,7 @@ updateTex(text, field){
     })
     .then(res => res.json())
     .then(resJson => {
-      //Respuesta
+
       if(resJson.confirmation === 'success') this.props.navigation.navigate("Home")
       else alert('Algo ha ido mal, intentalo lo nuevo.')
     })
@@ -45,13 +71,13 @@ updateTex(text, field){
   
   render() {
     return (
-      <View style={{ width:100 + "%",height:100 + "%",justifyContent: "center", alignItems: "center" }}>
+      <Container>
+      <View style={styles.container}>
         <ImageLoader
           style={{height: Movile_height, width: Movile_with, opacity: 0.9, position: 'absolute', top: 0, left:0}}
           source={{ uri: config.images.login }}
         />
 
-        <View style={styles.container}>
         <Text style={styles.header}>AlfonsoGram</Text>
         <TextInput 
         style={styles.textInput}
@@ -67,17 +93,20 @@ updateTex(text, field){
         onChangeText= {text => this.updateTex(text, "password")}
         value={this.state.credentials.password}
         />
-        <Button 
-        style= {styles.loginBtn}
-        title= "Conectarme"
-        onPress= {() => this.login()}
-        />
-        <Button 
-        title= "¿Quieres registrarte?"
-        onPress={() => this.props.navigation.navigate("Register")}
-        />
-        </View>
+        <TouchableOpacity 
+        style={styles.loginBtn}
+          onPress= {() => this.login()}
+        >
+        <Text>Login</Text>
+        </TouchableOpacity>
       </View>
+      <Footer style={styles.Footer} >
+        <Button
+          onPress={() => {this.props.navigation.navigate('Register')}} transparent block >
+          <Text uppercase={false} fontWeight={false} style={styles.footertext}>No tienes cuenta? <Text style={styles.signup}>Registrate</Text></Text>
+        </Button>
+      </Footer>
+      </Container>
     );
   }
 }
@@ -105,10 +134,29 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   loginBtn: {
-    backgroundColor: '#009688',
-    borderRadius: 15,
-    marginBottom: 20
-  }
+    alignSelf : 'stretch',
+    padding : 15,
+    alignItems : 'center',
+    backgroundColor:'#ffffff',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#68a0cf'
+  },
+  registerTxt: {
+    color: 'rgb(45,141,250)',
+    fontWeight: "900",
+  },
+  footer:{
+    borderTopWidth: 1,
+    borderColor: '#d0d0d0',
+    backgroundColor:"#ffffff",
+    alignItems: "center",
+   },
+   footertext:{
+    fontSize:14,
+    color:'#d0d0d0',
+    fontWeight:'normal',
+   }
 })
 
 class ImageLoader extends Component {

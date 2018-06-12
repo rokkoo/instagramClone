@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, AsyncStorage } from 'react-native';
 
 import config from './../../config/index';
 import {PostFeed} from './../containers'

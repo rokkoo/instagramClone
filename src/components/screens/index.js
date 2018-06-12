@@ -1,6 +1,6 @@
 import MainFeed from './MainFeed'
 import Login from './Login'
-import Camera from "./Camera";
+import Camera from "./CameraScreen";
 import Profile from "./Profile";
 import Register from './Register';
 /** Ventanas */

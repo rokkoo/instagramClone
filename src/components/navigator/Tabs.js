@@ -45,13 +45,13 @@ export default createBottomTabNavigator(
   
           // You can return any component that you like here! We usually use an
           // icon component from react-native-vector-icons
-          return <Ionicons name={iconName} size={25} color={tintColor} />;
+          return <Ionicons name={iconName} size={30} color={tintColor} />;
         },
       }),
       tabBarOptions: {
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
-        showLabel: false
+        showLabel: false //Mostramos el nombre debajo del icono
       },
     }
   );
