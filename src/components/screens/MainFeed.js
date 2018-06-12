@@ -23,7 +23,7 @@ class MainFeed extends React.Component {
     return (
       <View style={Styles.container}>
         <View style={Styles.top}>
-          <Text>Instagram</Text>
+          <Text style={{fontFamily: 'Billabong', paddingTop: 10, fontSize: 30}}>AlfonsoGram</Text>
         </View>
         <PostFeed />
       </View>

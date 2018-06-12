@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextInput, Animated, Dimensions, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
-import { Container,Content, Item ,Button ,Text ,Footer } from 'native-base';
+import { Container, Button ,Text ,Footer } from 'native-base';
 import config from '../../config';
 
 const Movile_with = Dimensions.get("window").width
@@ -36,7 +36,11 @@ async getToken() {
   try {
     let token = await AsyncStorage.getItem(ACCESS_TOKEN)
     if (!token) console.log('No hay token')
-    else this.props.navigation.navigate('Home')
+    else{
+      console.log(token);
+      
+      this.props.navigation.navigate('Home')
+    } 
   } catch (error) {
     console.log('Algo ha ido mal con el token de acceso.')
   }
@@ -63,9 +67,11 @@ updateTex(text, field){
     })
     .then(res => res.json())
     .then(resJson => {
-
-      if(resJson.confirmation === 'success') this.props.navigation.navigate("Home")
-      else alert('Algo ha ido mal, intentalo lo nuevo.')
+    // Alert.alert("Welcome, "+ res.user.username, " Te has conectado con exito")
+      if(resJson.confirmation === 'success'){
+        this.props.navigation.navigate("Home")
+        this.storeToken(resJson.token)
+      } else alert('Algo ha ido mal, intentalo lo nuevo.')
     })
   }
   
@@ -112,13 +118,21 @@ updateTex(text, field){
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingLeft:40,
     paddingRight: 40
   },
+  header :{
+    fontSize: 45,
+    marginBottom: 30,
+    fontFamily : 'Billabong',
+    color: 'black',
+    fontSize :60,
+           
+},
   textInput: {
     alignSelf: 'stretch',
     padding: 16,
@@ -127,12 +141,6 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
   },
-  header: {
-    fontSize: 24,
-    marginBottom: 60,
-    color: 'rgb(45,141,250)',
-    fontWeight: 'bold',
-  },
   loginBtn: {
     alignSelf : 'stretch',
     padding : 15,
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#ffffff',
     borderRadius:10,
     borderWidth: 1,
-    borderColor: '#68a0cf'
+    borderColor: 'black'
   },
   registerTxt: {
     color: 'rgb(45,141,250)',
