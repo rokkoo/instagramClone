@@ -16,7 +16,8 @@ export default class App extends React.Component {
   async componentWillMount(){
     await Font.loadAsync({
       Billabong: require('./assets/Billabong.ttf'),
-      Ionicons: require('@expo/vector-icons/fonts/Ionicons.ttf')
+      Ionicons: require('@expo/vector-icons/fonts/Ionicons.ttf'),
+      Icon: require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf')
     })
     this.setState({ isReady: true })
   }
