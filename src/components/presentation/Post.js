@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-
+import * as firebase from 'firebase'
 import config from '../../config';
 /** Creamos cada post que tengamos guardado */
 class Post extends React.Component {
@@ -18,13 +18,29 @@ class Post extends React.Component {
     this.setState({
       liked: !this.state.liked
     })
+    this.cargaPots()
+  }
+
+  cargaPots = () => {
+    fetch(config.Api.url + 'posts', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      query: JSON.stringify({'id': '5b22f2a06d1a360014f303a5'})
+    })
+    .then(res => res.json())
+    .then(resJson => { 
+      console.log(resJson)
+    })
   }
   render() {
     /** 410 / 365 = 1.10  => Math.floor - redondeamos el resultado */
     const imageHeight = Math.floor(this.state.screenWidth * 1.10)
     const selectedImg = this.props.item % 2 == 0 ?"https://lh3.googleusercontent.com/1mrobnvOwuyRtTSSWaHVHMkp3cAjA2SVN-s6O9NdbcZfr3Hd06imTTlcp-fVKngZf-J5nvMrMwnIvuewM-CmpmbC" :
     "https://lh3.googleusercontent.com/7aGIQrv8qiCgIwVdZNAxrYVftyPe6ZHFmcKBqxObUYOklmrqcx4VxeojuJCoN7lN-qycgONBTtn2eFgQOtZuCtmy6g"
-    const imageUri = selectedImg + "=s" + imageHeight + "-c"
+    const imageUri = selectedImg
     const likeColor = this.state.liked ? "rgb(252, 61, 57)" : null
     return (
         <View style={{flex: 1, width: 100 + "%"}}>

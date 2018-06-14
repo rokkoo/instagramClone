@@ -36,9 +36,7 @@ async getToken() {
   try {
     let token = await AsyncStorage.getItem(ACCESS_TOKEN)
     if (!token) console.log('No hay token')
-    else{
-      console.log(token);
-      
+    else{      
       this.props.navigation.navigate('Home')
     } 
   } catch (error) {
@@ -54,9 +52,7 @@ updateTex(text, field){
   })
 }
 
-  login(){
-    console.log('datos ', JSON.stringify(this.state.credentials));
-    
+  login(){    
     fetch(config.Api.url + 'login', {
       method: 'POST',
       headers: {
@@ -71,7 +67,7 @@ updateTex(text, field){
       if(resJson.confirmation === 'success'){
         this.props.navigation.navigate("Home")
         this.storeToken(resJson.token)
-      } else alert('Algo ha ido mal, intentalo lo nuevo.')
+      } else console.log('Algo ha ido mal, intentalo lo nuevo.')
     })
   }
   

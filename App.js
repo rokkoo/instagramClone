@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppLoading, Font } from "expo";
-
+import * as firebase from 'firebase'
 import InstaClone from "./src/InstaClone";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import config from './src/config';
+import RNCloudinary from 'react-native-cloudinary'
 
 export default class App extends React.Component {
 
@@ -12,6 +14,9 @@ export default class App extends React.Component {
     this.state = {
       isReady: false
     }
+
+    //Inicializamos firebase
+    firebase.initializeApp(config.Api.firebaseConfig)
   }
   async componentWillMount(){
     await Font.loadAsync({

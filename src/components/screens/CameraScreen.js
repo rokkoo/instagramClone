@@ -7,6 +7,7 @@ class CameraScreen extends Component {
   state = {
     image: null,
     hasCameraPermission: null,
+    hasCameraRollPermission: null,
     type: Camera.Constants.Type.back,
     photoId:1,
     ratio: '1:1',
@@ -36,21 +37,27 @@ class CameraScreen extends Component {
 };
 
 pickImage = async () => {
-  let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes:"Images",
-    allowsEditing: true,
-    aspect: [4, 4],
-    quality:0.8,
-    base64 :true,
-  });
-  if (!result.cancelled) {
-    this.setState({ image: result.uri });
-    //this.onImageDataResolved(result);
-  } 
-  else this.props.navigation.navigate('Camera');
+  const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  this.setState({ hasCameraRollPermission: status === 'granted' });
+  console.log(this.state.hasCameraRollPermission);
+  
+  if(this.state.hasCameraRollPermission) {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes:"Images",
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality:0.8,
+      base64 :true,
+    });
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+      this.onDataResolve(result);
+    } 
+    else this.props.navigation.navigate('Camera');
+  }
 }
 
-onImageDataResolved(imageData) {
+onDataResolve(imageData) {
   this.props.navigation.navigate('ImageEditor', {imageData});
 }
   render() {
@@ -89,17 +96,17 @@ onImageDataResolved(imageData) {
               </TouchableOpacity>
               {this.state.loading && <View style={styles.loading}>
                 <ActivityIndicator animating size="large" color="white"/>
-                <Text  style={{marginTop:2,color:"#ffffff"}} children="Dont't Shake!! Saving to Gallery..." />
+                <Text  style={{marginTop:2,color:"#ffffff"}} children="Guardado en la galeria.." />
               </View>
               }
             </View>
           </Camera>
-          <Footer style={{  flex: 1,backgroundColor:'white' }}>
-            <FooterTab style={{marginLeft:125,backgroundColor:'white'}}>
-              <Button transparent  onPress={() => this.takePicture()}>
-                <MaterialCommunityIcons  name='camera-iris' style={{fontSize:65  }}/>
+          <Footer style={{backgroundColor:'white',}}>
+            <FooterTab style={{marginLeft:125}}>
+              <Button transparent  onPress={() => this.takePicture()} style={{ height: 70}}>
+                <MaterialCommunityIcons  name='camera-iris' style={{color:'black',fontSize:50}}/>
               </Button>
-              <Button transparent  onPress={() => this.pickImage()} >
+              <Button transparent  onPress={() => this.pickImage()} style={{ height: 70 }}>
                 <MaterialCommunityIcons  name='image' style={{color:'black',fontSize:50 }}/>
               </Button>
             </FooterTab>    
